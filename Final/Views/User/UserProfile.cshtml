@@ -1,0 +1,151 @@
+﻿@model Final.Models.User
+@{
+    ViewBag.Title = "Profile";
+}
+<style>
+    .profile-wrapper{
+       
+    }
+    .profile-card{
+        display:flex;
+        flex-direction:row;
+        width:450px;
+        overflow:hidden;
+        border-radius:10px;
+        padding:20px;
+    }
+    .profile-image{
+        border-right:1px solid gainsboro;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        margin-right:10px;
+        width:35%;
+        padding-right:10px;
+    }
+    .profile-image i{
+        color:gainsboro;
+        font-size:5rem;
+    }
+    .profile-image p{
+        font-size:1.3rem
+    }
+    .user-info{
+        display:flex;
+        flex-direction:column;
+        justify-content:center
+    }
+    .user-info p {
+        font-size:1.2rem;
+    }
+    .o-header{
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+        background-color:#ebebeb;
+        padding:15px 20px 15px 0;
+        padding-left:20px;
+        font-size:1.2rem;
+        justify-content:space-between;
+        color:#ff401b;
+    }
+    .details-wrapper {
+        overflow: hidden;
+        border-radius: 10px;
+    }
+</style>
+    
+<p class="theme-text tripple ml-5">Personal Info</p>
+    <div class="profile-wrapper m-5">
+        <div class="profile-card shadow-lg">
+            <div class="profile-image">
+                <p>User Profile</p>
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="user-info">
+                <div class="ui">
+                    <p class="theme-text">Name</p>
+                    <p>@Session["UserName"]</p>
+                </div>
+                <div class="ui">
+                    <p class="theme-text">Email</p>
+                    <p>@Session["UserEmail"]</p>
+                </div>
+              
+            </div>
+        </div>
+        <div></div>
+    </div>
+
+
+<p class="theme-text tripple ml-5">Orders</p>
+<div class="m-5 order-wrapper">
+
+    @foreach (var item in Model.Orders.Where(x => x.Users_Id == Convert.ToInt32(Session["UserID"])))
+    {
+        <div class="mb-5 details-wrapper shadow-lg">
+        <div class="o-header">
+            <div class="">Order No: @item.Number</div>
+            <div>Date: @item.Order_Date</div>
+        </div>
+        <div class="p-4">
+            @{
+                int i = 0;
+                <div class="row">
+                    <div class="col-md-1">
+                        <b>No.</b>
+                    </div>
+                    <div class="col-md-5">
+                        <b>Item</b>
+                    </div>
+                    <div class="col-md-2">
+                        <b>Quantity</b>
+                    </div>
+                    <div class="col-md-2">
+                        <b>Amount</b>
+                    </div>
+                </div>
+                <hr />
+                foreach (var v in item.Order_Details.Where(x => x.Order_Id == item.Id))
+                {
+                    i++;
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            @i
+                        </div>
+                        <div class="col-md-5">
+                            <a href="@Url.Action("Details","Items",new {id=v.Item.Id })">@v.Item.Name</a>
+                        </div>
+                        <div class="col-md-2">
+                            @v.Quantity
+                        </div>
+                        <div class="col-md-2">
+                            $@v.Amount
+                        </div>
+                    </div>
+
+                }
+                <hr />
+                <div class="row">
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-5">
+
+                    </div>
+                    <div class="col-md-2">
+                        <b>Total:</b>
+                    </div>
+                    <div class="col-md-2">
+                        $@item.amount.ToString("F")
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    }
+    
+</div>
+

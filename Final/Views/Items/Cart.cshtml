@@ -1,0 +1,159 @@
+﻿@model IEnumerable<Final.Models.Cart>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<style>
+    .card-item {
+        display: grid;
+        justify-content: space-around;
+        grid-template-columns: 15% 70% 15%;
+        padding: 10px;
+        font-size: 1.2rem;
+    }
+    .cart-heading{
+        font-size:2rem;
+    }
+    img{
+        height:200px
+    }
+    .item-info{
+        display:flex;
+        flex-direction:column;
+    }
+    .item-action a i {
+        color: #ff401b
+    }
+    .invoice-detail{
+        display:grid;
+        grid-template-columns:15% 35% 50%;
+        font-size:1.3rem;
+        background-color:#f6f6f6;
+        padding:20px;
+        column-gap:10px;
+    }
+    .total{
+        border-right:1px solid gainsboro;
+    }
+    .btn-delete a{
+        color:white;
+    }
+    .abcd {
+        background-color: #f6f6f6;
+        height:200px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .text-red {
+        color: #f5ad42
+    }
+    #place-order{
+        background-color:#333;
+        border:none;
+        outline:none;
+        color:white;
+        height:55px;
+        padding:5px;
+        width:150px;
+        margin-top:10px;
+        box-shadow:0 0 15px #333;
+        transition:ease-out .5s;
+    }
+    #place-order:hover{        
+        box-shadow:inset 300px 0 0 0.1px #ff401b,0 0 15px #ff401b;
+        
+    }
+</style>
+ @{ 
+    double total = 0.00;
+    double final = 0.00;
+    var tax = 13;
+
+    <div class="container mt-5">
+        <p class="cart-heading theme-text">Shopping Cart</p>
+        @foreach (var item in Model)
+        {
+            <div class="card-item">
+                <div>
+                    @{
+                        if (item.Item.Image != null)
+                        {
+                            var base64 = Convert.ToBase64String(item.Item.Image);
+                            var imageSrc = string.Format("data:image/gif;base64,{0}", base64);
+                            <img src="@imageSrc" />
+                        }
+                        else
+                        {
+                            var imageSrc = "~/Content/Images/cart.svg";
+                            <img src="@imageSrc" />
+                        }
+                    }
+                </div>
+                <div class="item-info">
+                    <div>@Html.DisplayFor(i => item.Item.Name)</div>
+                    <div>Size: @Html.DisplayFor(i => item.Item.Size) | Color: @Html.DisplayFor(i => item.Item.Color)</div>
+                    <div class="price">&dollar; <span id="price">@Html.DisplayFor(i => item.Item.Price)</span></div>
+                </div>
+                <div class="item-action">
+                    <div class="btn btn-danger btn-delete"><i class="far fa-trash-alt"></i>@Ajax.ActionLink("Delete", "DeleteCart", new { id = item.Id }, new AjaxOptions { OnSuccess = "suc", OnFailure = "err", HttpMethod = "POST" })</div>
+                </div>
+                <div></div>
+            </div>
+            total= @Model.Sum(x=>x.Item.Price);
+            final= total+(total*tax)/100;
+         }
+          <hr />
+            
+            @if(total > 0)
+            {
+                <div class="invoice-detail">
+                    <div class="i-1">
+                        <p>Sub Total</p>
+                        <p>Tax(HST/GST)</p>
+                        <p>Total</p>
+                    </div>
+                    <div class="total">
+                        <p>&dollar;@total</p>
+                        <p>@tax&#37;</p>
+                        <p id="@final" class="final">&dollar;@final.ToString("F")</p>
+                    </div>
+                    <div class="i-3">
+                        <p>Place Order</p>
+                        <span class=""><input type="text"/> <input type="submit" /></span>                        
+                        <div class="mt-2"><a id="place-order" href="@Url.Action("PlaceOrder","Items",new { m=final})" class="">Place Order</a></div>
+                    </div>
+                </div>
+            }
+
+            else
+            {
+                final= 0.0;
+                total=0.0;
+                <div class="container abcd">
+                    <h4 class="text-red">Your cart is empty</h4>
+                </div>
+            }
+        
+    </div>
+    }
+
+<script>
+
+    function suc(data) {
+        if (data.success == "true") {
+            toastr.success(data.message, "Success!!!");
+            location.reload();
+        }
+        else if (data.success == "false")
+            toastr.warning(data.message, "Warning!!!")
+    }
+    function err(data) {
+        toastr.error(data.message, "error!!!");
+    }
+    $("#place-order").click(function (){
+        //alert($(".final").attr("id"));
+    })
+</script>
+

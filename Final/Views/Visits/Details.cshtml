@@ -1,0 +1,35 @@
+﻿@model Final.Models.Visit
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminDashBaord.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Visit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Visit_Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Visit_Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Visit_Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Visit_Time)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

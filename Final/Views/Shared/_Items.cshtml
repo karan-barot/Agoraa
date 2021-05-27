@@ -1,0 +1,88 @@
+﻿
+@model Final.Models.Item
+
+
+<style>
+    .item-card{
+        display:flex;
+        flex-direction:column;
+        height:600px;
+        overflow:hidden;
+        width:300px;
+    }
+    .item-card-image {
+        height:400px;
+    }
+    .item-card-image img{
+        height:400px;
+        object-fit:contain
+    }
+    .item-card-info{
+        height:200px;
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
+    }
+    .item-card-info a {
+        color: #333;
+    }
+    .addtocart{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:45px;
+        overflow:hidden;
+        font-size:1.1rem;
+        background-color:#e7eaed;
+        border-radius:20px;
+        transition:ease-in .5s;
+    }
+    .addtocart:hover{
+        box-shadow:inset 500px 0 0  0.1px #ff401b;
+        color:white;
+    }
+    #heart{
+        color:grey;
+    }
+    #heart:hover{
+        color:deeppink;
+    }
+</style>
+<a href="@Url.Action("Details","Items",new { id=Model.Id})">
+    <div class="item-card">
+        <div class="item-card-image">
+            @{
+                if (Model.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Image);
+                    var imageSrc = string.Format("data:image/gif;base64,{0}", base64);
+                    <img src="@imageSrc" class="item-img" />
+                }
+            }
+        </div>
+        <div class="item-card-info" id="@Model.Id">
+            <div>
+                <p style="overflow-x:hidden;">@Model.Name</p>
+            </div>
+            <div>
+                <p>Size: @Model.Size</p>
+                <p class="d-flex justify-content-between align-items-center">&dollar;@Model.Price <i class="fas fa-heart" id="heart"></i></p>
+                @Ajax.ActionLink("Add to Cart", "AddToCart", new { id = Model.Id }, new AjaxOptions { OnSuccess = "suc", OnFailure = "err", HttpMethod = "POST" }, new { @class = "addtocart d-flex" })
+
+            </div>
+        </div>
+    </div>
+</a>
+
+
+<script>
+
+    function suc(data) {
+        if (data.success == "true")
+            toastr.success(data.message, "Success!!!");
+        else if (data.success == "false")
+            toastr.warning(data.message, "Warning!!!");
+        else
+            toastr.error(data.error, "Error!!!");
+    }
+</script>

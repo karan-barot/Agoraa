@@ -1,0 +1,197 @@
+﻿@using PagedList;
+@using PagedList.Mvc
+
+@model IPagedList<Final.Models.Item>
+
+@{
+    ViewBag.Title = "Index1";
+}
+
+<p>
+    @using (Html.BeginForm("Index", "Items", FormMethod.Get))
+    {
+        @Html.TextBox("search")
+        <select name="sort">
+            <option name="name">Name desc</option>
+            <option size="price">Price</option>
+        </select>
+        <input type="submit" name="submit" value="Search" />
+
+
+    }
+</p>
+<style>
+    .list-wrapper {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        justify-content: space-around;
+        overflow: hidden;
+    }
+
+    .list-item {
+        width: 280px;
+    }
+
+    .list-image {
+        height:200px;
+    }
+
+    .list-image img {
+        width: 100%;
+        max-height:200px;
+    }
+
+    .list-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #addcart {
+        margin-top: 3px;
+        background-color: #fd7e14;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #addcart:hover {
+        background-color: #333;
+    }
+
+    #addcart:hover a {
+        color: white;
+    }
+
+    #addcart a {
+        color: #f6f6f6;
+        font-size: 1.2rem
+    }
+    .pagination-container{
+        width:100%;
+    }
+    .pagination{
+        width:100%;
+        display:flex;
+        justify-content:center;
+
+    }
+    .pagination li{
+        width:40px;
+        height:40px;
+        margin-right:5px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border-radius:40px;
+        background-color:#f6f6f6;
+    }
+    
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="list-wrapper mt-5">
+
+    @foreach (var item in Model)
+    {
+        <div class="list-item mb-5">
+
+            <div class="list-image ">
+                @{
+                    if (item.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.Image);
+                        var imageSrc = string.Format("data:image/gif;base64,{0}", base64);
+                        <img src="@imageSrc" />
+                    }
+                    else
+                    {
+                        var imageSrc = "~/Content/Images/cart.svg";
+                        <img src="@imageSrc" />
+                    }
+                }
+            </div>
+            <div class="list-info p-2">
+
+                <div>
+                    @Html.DisplayFor(model => item.Name)
+                </div>
+                <div>
+                    Price:&#36;@Html.DisplayFor(model => item.Price)
+                </div>
+                <div>
+                    Size:@Html.DisplayFor(model => item.Size)
+                </div>
+                <div id="addcart">
+                    @Ajax.ActionLink("Add", "AddToCart", new { id = item.Id }, new AjaxOptions { OnSuccess = "suc", OnFailure = "err", HttpMethod = "POST" })
+                </div>
+            </div>
+
+        </div>
+
+    }
+</div>
+<script>
+    function ab() {
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: "Items/AddToCart",
+            dataType: 'json',
+            data: null,
+            success: function (data) {
+                alert(data.message);
+            },
+            error: function () {
+                alert("fail");
+            }
+        })
+
+    }
+    function aa() {
+
+        function s(m) {
+            toastr.success(m, "Success!");
+        }
+        function w(m) {
+            toastr.warning(m);
+        }
+        function e(m) {
+            toastr.error(m);
+        }
+        var id = $("input").attr("value");
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: 'Items/AddToCart',
+            data: null,
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+
+                if (data.success == "true")
+                    s(data.message);
+                else if (data.success == "false")
+                    w(data.message)
+
+            },
+            error: function (data) {
+                e(data.message, "Error");
+            }
+
+        });
+        debugger;
+    }
+    function suc(data) {
+        if (data.success == "true")
+            toastr.success(data.message, "Success!!!");
+        else if (data.success == "false")
+            toastr.warning(data.message, "Warning!!!")
+    }
+    function err(data) {
+        toastr.error(data.message, "error!!!");
+    }
+
+</script>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = Request.QueryString["search"], sort = Request.QueryString["sort"] }))

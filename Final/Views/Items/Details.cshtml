@@ -1,0 +1,456 @@
+﻿@model Final.Models.Item
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    #id_name, #id_value,#user_id {
+        visibility: hidden;
+        display: none;
+    }
+
+    .review-container {
+        background-color: #f7f8fa;
+    }
+
+    .review {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+    }
+
+    .r-user {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .itm-info {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .i-wrapper {
+        column-gap: 25px;
+        height: 600px;
+        display: grid;
+        grid-template-columns: 40% 60%;
+    }
+
+    .itm-img-l img {
+        height: 500px;
+        width: 500px;
+        object-fit: contain;
+    }
+
+    .stars {
+        font-size: 1.2rem;
+    }
+
+    .review-bars {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .review-bar {
+        display: grid;
+        grid-template-columns: 10% 80% 10%;
+        width: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 50px;
+    }
+
+    .review-bar .bar {
+            height: 0.3rem;
+            background-color: #e7eaed;
+            border-radius: 40px;
+            width: 100%;         
+    }
+
+    .five .progress {
+        background-color: #652da8;
+        box-shadow: 0 0 15px #652da8;
+        width: 0;
+        height: 0.3rem;
+    }
+
+    .four .progress {
+        background-color: #06acb6;
+        box-shadow: 0 0 15px #06acb6;
+        width: 0;
+        height: 0.3rem;
+    }
+
+    .three .progress {
+        background-color: #f5bc42;
+        box-shadow: 0 0 15px #f5bc42;
+        width: 0;
+        height: 0.3rem;
+    }
+
+    .two .progress {
+        background-color: #f59c42;
+        box-shadow: 0 0 15px #f59c42;
+        width: 0;
+        height: 0.3rem;
+    }
+
+    .one .progress {
+        background-color: #fc4444;
+        box-shadow: 0 0 15px #fc4444;
+        width: 0;
+        height: 0.3rem;
+    }
+
+    .addtocart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 45px;
+        overflow: hidden;
+        font-size: 1.1rem;
+        background-color: #e7eaed;
+        border-radius: 20px;
+        transition: ease-in .5s;
+        width: 300px;
+    }
+
+    .addtocart:hover {
+        box-shadow: inset 800px 0 0 0.1px #ff401b;
+        color: white;
+    }
+
+    .c {
+        margin-left: 20px;
+        color: #ff401b;
+    }
+
+    .back a{
+        height: 45px;
+        padding: 25px;
+        color: #ff401b;
+        font-size: 1.1rem;
+        text-shadow: 0 0 .9px #ff401b;
+        transition: linear .3s;
+    }
+
+    .back a:hover {
+        color: #333;
+        text-shadow: 0 0 .9px #333;
+    }
+
+    #exampleModal {
+    }
+
+    .modal-dialog {
+        margin-top: 10%;
+        font-family: 'Poppins',sans-serif;
+    }
+
+    .custome-select select {
+        border: none;
+        height: 40px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: none;
+        background-color: #f8f9fa;
+    }
+    .custome-select select option {
+        display: flex;
+        
+    }
+    .review-form-container{
+        width:100%;
+        height:100vh;
+        background-color:rgba(51, 51, 51, 0.6);
+        position:fixed;
+        top:0;
+        left:0;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:300000;
+    }
+    #review-form{
+        z-index:2000;
+        position:absolute;
+        margin:auto;
+        background-color:#f8f9fa;
+        padding:35px;
+        width:400px;
+        height:400px;
+        box-shadow:0 0 25px gainsboro;
+        border-radius:20px;
+        opacity:1;
+        font-size:1.3rem;
+    }
+    .form-head{
+        font-size:1.4rem;
+        color:#ff401b
+    }
+    #user_rate {
+        background-color: #f8f9fa;
+    }
+</style>
+<div class="d-flex align-items-center back">
+    <a href="@Url.Action("Index","Items")"><i class="fas fa-arrow-circle-left"></i>Back to List</a>
+</div>
+<div>
+    <hr class="mt-0" />
+    <div id="id_value">@Html.DisplayFor(x => x.Id)</div>
+    <div id="user_id">@Session["UserID"]</div>
+</div>
+
+<div class="d-flex i-wrapper">
+    <div class="itm-img-l">
+        @{
+            if (Model.Image != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Image);
+                var imageSrc = string.Format("data:image/gif;base64,{0}", base64);
+                <img src="@imageSrc" class="item-img" />
+            }
+        }
+    </div>
+    <div class="itm-info">
+        <h3>@Model.Name</h3>
+        <h4>&dollar;@Model.Price</h4>
+        <h4>Size: @Model.Size</h4>
+        <h4>Color: @Model.Color</h4>
+        <div class="d-flex flex-column">
+            <h4 class="theme-text">Average Customer Rating</h4>
+            <div class="stars d-flex align-items-center">
+
+            </div>
+            <div class="review-bars">
+                <div class="review-bar one">
+                    <div class="label">1 <i class='far fa-star text-warning'></i></div>
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="count text-right"></div>
+                </div>
+                <div class="review-bar two">
+                    <div class="label">2 <i class='far fa-star text-warning'></i></div>
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="count text-right"></div>
+                </div>
+                <div class="review-bar three">
+                    <div class="label">3 <i class='far fa-star text-warning'></i></div>
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="count text-right"></div>
+                </div>
+                <div class="review-bar four">
+                    <div class="label">4 <i class='far fa-star text-warning'></i></div>
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="count text-right"></div>
+                </div>
+                <div class="review-bar five">
+                    <div class="label">5 <i class='far fa-star text-warning'></i></div>
+                    <div class="bar"><div class="progress"></div></div>
+                    <div class="count text-right"></div>
+                </div>
+            </div>
+            @if (Session["UserName"] != null)
+            {
+                @Ajax.ActionLink("Add to Cart", "AddToCart", new { id = Model.Id, @class = "mt-3" }, new AjaxOptions { OnSuccess = "suc", OnFailure = "err", HttpMethod = "POST" }, new { @class = "addtocart d-flex" })
+
+            }
+        </div>
+    </div>
+</div>
+
+<h3 class="pl-3">Reviews</h3>
+@if (Session["UserID"] != null)
+{
+    if ((string)Session["UserRole"] == "U")
+    {
+        <input type="submit" class="ml-3" id="add-review" value="Add Review" />
+    }
+}
+
+<div class="review theme-text pl-3 pr-3">
+    <div>Users</div>
+    <div>Reviews</div>
+    <div>Ratings</div>
+    <div>Date</div>
+</div>
+<div class="review-container pl-3 pr-3">
+
+</div>
+<div class="review-form-container">
+    <form id="review-form">
+        <div class="d-flex text-danger justify-content-end tripple"><a id="review-form-close"><i class="far fa-window-close"></i></a></div>
+        <div>
+            <p class="form-head">Your Comments</p>
+            <input type="text" name="search" id="user_review" placeholder="Search" />
+        </div>
+        <div class="custome-select">
+            <select name="sort" class="fa" id="user_rate">
+                <option disabled selected value="" hidden>Rate&#9660;</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div><input type="submit" id="review-submit" value="Submit" /></div>
+    </form>
+</div>
+
+
+<script>
+    function suc(data) {
+        if (data.success == "true")
+            toastr.success(data.message, "Success!!!");
+        else if (data.success == "false")
+            toastr.warning(data.message, "Warning!!!");
+        else
+            toastr.error(data.error, "Error!!!");
+    }
+    $(document).ready(function () {
+
+        var id = $("#id_value").html();
+        var text = '';
+        var k = 0;
+        var total = 0;
+        var total_review = 0;
+        var a = [];
+        var one = 0;
+        var two = 0;
+        var three = 0;
+        var four = 0;
+        var five = 0;
+        var b = [];
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify({ ID: id }),
+            url: '/Reviews/Index',
+            contentType: 'application/json',
+            success: function (response) {
+                var obj = response.data;
+                var users = response.user;
+                for (u in users) {
+                    b[u] = users[u];
+                }
+                for (x in obj) {
+                    total += obj[x].Rate;
+                    a[x] = obj[x];
+                    k += 1;
+                    if (obj[x].Rate == 1) {
+                        one += 1;
+                    }
+                    else if (obj[x].Rate == 2) {
+                        two += 1;
+                    }
+                    else if (obj[x].Rate == 3) {
+                        three += 1;
+                    }
+                    else if (obj[x].Rate == 4) {
+                        four += 1;
+                    }
+                    else if (obj[x].Rate == 5) {
+                        five += 1;
+                    }
+                }
+                avg = total / k;
+                ss();
+            }
+        })
+        function ss() {
+            var i;
+            var f = 5 - avg;
+            var r = '';
+            for (i = 0; i < a.length; i++) {
+                text += "<div class='review'>";
+                text += "<div class='r-user'>" + b[i].username + "," + b[i].email + "</div>";
+                text += "<div class='r-review'>" + a[i].Review1 + "</div>";
+                text += "<div class='r-rate'>" + a[i].Rate + "</div>";
+                text += "<div class='r-time'>" + a[i].TimeStemp + "</div>";
+                text += "</div><hr/>";
+
+            }
+            $(".review-container").append(text);
+            if (k == 0) {
+                for (i = 0; i < 5; i++) {
+                    r += "<i class='far fa-star'></i>"
+                }
+            }
+            for (i = 0; i < avg; i++) {
+                r += "<i class='fas fa-star text-warning'></i >"
+            }
+            for (i = 0; i < f; i++) {
+                r += "<i class='far fa-star'></i>"
+            }
+
+            total = one + two + three + four + five;
+            r += "<span class='ml-3'>" + avg.toFixed(2) + "(Average)</span>"
+            var fv = (100 * five) / total;
+            var fr = (100 * four) / total;
+            var th = (100 * three) / total;
+            var tw = (100 * two) / total;
+            var on = (100 * one) / total;
+            console.log(tw)
+            $(".five .count").html(fv.toFixed(1) + "%");
+            $(".four .count").html(fr.toFixed(1) + "%");
+            $(".three .count").html(th.toFixed(1) + "%");
+            $(".two .count").html(tw.toFixed(1) + "%");
+            $(".one .count").html(on.toFixed(1) + "%");
+            $(".five .progress").width(fv + "%");
+            $(".four .progress").width(fr + "%")
+            $(".three .progress").width(th + "%")
+            $(".two .progress").width(tw + "%")
+            $(".one .progress").width(on + "%")
+            $(".stars").append(r);
+
+        }
+
+
+        $("#review-form-close").click(function () {
+            $(".review-form-container").hide()
+        })
+        $(".review-form-container").hide();
+        $("#add-review").click(function () {
+            $(".review-form-container").show();
+        })
+        $("#review-submit").click(function (event) {
+        
+            var itemId1 = $("#id_value").html();
+            var userId1 = $("#user_id").html();
+            var feed1 = $("#user_review").val();
+            var rate1 = $("#user_rate").val();
+            
+            if (feed1 != '' && rate1 != null) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify({ itemId: itemId1, userId: userId1, rate: rate1, feed:feed1 }),
+                    dataType: 'JSON',
+                    processData:false,
+                    contentType:'application/json;charset=utf-8',
+                    url: '/Reviews/FeedBack',
+                    success: function (data) {
+
+                        console.log(data.message);
+                        
+                        if (data.message == "Success") {
+                            
+                            $(".review-form-container").hide();
+                            $("#user_review").val('');
+                            toastr.success("Your review has been sent successfully", "Success");
+                            setTimeout(function () { location.reload() }, 1000);
+                        }
+                        else {
+                            toastr.error("An error occured while submitting review", "Error")
+                            setTimeout(function () { location.reload() }, 1000);
+                        }
+                    }
+                })
+               
+            }    
+          
+
+        })
+
+    })
+    
+</script>

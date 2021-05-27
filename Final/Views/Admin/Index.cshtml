@@ -1,0 +1,225 @@
+﻿@model Final.Models.DbEntities
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_AdminDashBaord.cshtml";
+    if ((string)Session["UserRole"] != "A")
+    {
+        Response.Redirect("~/User/Index");
+    }
+}
+
+
+<style>
+    .dash-wrapper {
+    }
+    .title {
+        font-size: 2rem;
+        font-weight: 400;
+    }
+    .tile {
+        height: 150px;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor:pointer;
+        transition:ease 0.3s;
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
+    }
+    .col-md :hover{
+        transform:scale(0.9);
+    }
+    .r {
+        background-color: rgba(240,124,65,1);
+        box-shadow:0 0 25px rgba(240,124,65,1);
+    }
+    .b {
+        background-color: #02244a;
+        box-shadow:0 0 25px #02244a
+    }
+    .g {
+        background-color: #009688;
+        box-shadow:0 0 25px #009688
+    }
+    .y {
+        background-color: #ffc107;
+        box-shadow:0 0 25px #ffc107
+    } 
+
+    .tile-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tile-info p {
+        font-size: 2rem;
+        color: white;
+    }
+    /*Charts*/
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+    .table-container{
+        padding:25px;
+    }
+    tbody tr{
+        transition:ease-out  .5s;
+        line-height:1.3rem;
+    }
+    tbody tr:hover{
+        box-shadow:inset 1200px 0 0 0.1px  #fce5e1;
+        border-left:4px solid #ff401b;
+        color:#ff401b;
+    }
+    .tile-image i{
+        font-size:4rem;
+        color:white;
+    }
+    #dual_x_div{
+        margin:auto;
+    }
+    .bg-header {
+        background-color: #f2c777
+    }
+</style>
+
+
+@{
+    var i = 0;
+    var j = 0;
+    <div class="container-fluid dash-wrapper">
+        <div class="title theme-text">DashBoard</div>
+        <div class="row mt-3">
+            <div class="col-md">
+                <div class="tile r">
+                    <div class="tile-image">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="tile-info">
+                        <p>Users</p>
+                        <p>@Model.Users.Count()</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="tile g">
+                    <div class="tile-image">
+                        <i class="far fa-chart-bar"></i>    
+                    </div>
+                    <div class="tile-info">
+                        <p>Sales</p>
+                        <p>@Model.Items.Count()</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="tile b">
+                    <div class="tile-image">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="tile-info">
+                        <p>Orders</p>
+                        <p>@Model.Items.Count()</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="tile y">
+                    <div class="tile-image">
+                        <i class="far fa-eye"></i>
+                    </div>
+                    <div class="tile-info">
+                        <p>Visits</p>
+                        <p>@Model.Visits.Count()</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="table-container">
+        <p class="theme-text title">Messages</p>
+        <table class="table">
+            <thead class="bg-light">
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Date/Time</th>
+                    <th scope="col">From</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var msg in Model.AdminMessages)
+                {
+                    i = i + 1;
+                    <tr>
+                        <th scope="row">@i</th>                        
+                        <td>@msg.Message_desc</td>
+                        <td>@msg.TimeStemp</td>
+                        <td>@msg.User.UserName</td>
+                        <td><a href="@Url.Action("Details","Adminmessages",new { id=msg.Id})"><i class="far fa-envelope"></i></a> | <a href="@Url.Action("Delete","Adminmessages",new { id=msg.Id})"><i class="far fa-trash-alt"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="table-container">
+        <p class="theme-text title">Orders</p>
+        <table class="table">
+            <thead class="bg-light">
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Order Number</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var msg in Model.Orders)
+                {
+                    j = j + 1;
+                    <tr>
+                        <th scope="row">@j</th>                        
+                        <td>@msg.Number</td>
+                        <td>@msg.Order_Date</td>
+                        <td>@msg.User.UserName</td>
+                        <td>&dollar;@msg.amount</td>
+                        <td><a href="@Url.Action("Details","Orders",new { id=msg.Id})"><i class="far fa-envelope"></i></a> | <a href="@Url.Action("Delete","Orders",new { id=msg.Id})"><i class="far fa-trash-alt"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="visits-chart">
+
+    </div>
+
+}
+
+<script>
+    $(document).ready(function () {
+        getVisits();
+    })
+    function getVisits() {
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            url: '/Visits/GetVisits',
+            data: null,
+            success: function (response) {
+                console.log(response.data[0].Visit_Time)
+                //alert(response.data)
+
+            }
+        })
+    }
+</script>
+
+
+

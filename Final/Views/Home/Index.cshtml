@@ -1,0 +1,283 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    /*if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/User/Index");
+    }*/
+}
+
+<style>
+    
+    .custom-shape-divider-bottom-1606775958 {
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        transform: rotate(180deg);
+    }
+
+    .custom-shape-divider-bottom-1606775958 svg {
+        position: relative;
+        display: block;
+        width: calc(168% + 1.3px);
+        height: 176px;
+        transform: rotateY(180deg);
+    }
+
+    .custom-shape-divider-bottom-1606775958 .shape-fill {
+        fill: #FFFFFF;
+    }
+
+    .image-container {
+        display: flex;
+
+        position: relative;
+    }
+
+    .home {
+        height: 95vh;
+        background-color: #f0027f;
+        background-image: linear-gradient(160deg, #f36476, #ee733a );
+        position: relative;
+        overflow:hidden;
+    }
+
+    .home img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .home .overlay {
+        background: linear-gradient(45deg,#0d47a1,#ff4444);
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        z-index: 2;
+    }
+
+    .home p {
+        position: absolute;
+        top: 10%;
+        font-size: 5rem;
+        font-weight: 400;
+        z-index: 3;
+        color: whitesmoke;
+        text-shadow: 0 0 25px #ea1b4e;
+    }
+    .cat-container,.brand-container{
+        display:flex;
+        justify-content:space-around;
+        overflow:hidden;
+    }
+    .cat-card{
+        display:flex;
+        flex-direction:column;
+        width:250px;
+        height:auto;
+        border-radius:10px;
+        overflow:hidden;
+        background-color:#f8f9fa;
+        padding-bottom:0;
+    }
+    .cat-image{
+        display:flex;
+
+    }
+    .cat-card .cat-image img{
+        height:400px;
+        object-fit:cover;
+    }
+    .cat-info{
+        background-color:#f8f9fa;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        height:100%;
+        font-size:1.2rem;
+        color:#ff401b;
+    }
+    .cat-info p{
+        padding:0;
+        margin:0;
+        font-size:1.3rem
+    }
+    .b-card{
+        height:150px;
+        width:150px;
+        background-color:white;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        border-radius:10px;
+        overflow:hidden;
+        box-shadow:0 0 5px gainsboro;
+
+    }.b-logo{
+         display:flex;
+         justify-content:center;
+         border-bottom:1px solid gainsboro;
+     }
+    .b-logo img{
+        height:100px;
+        width:100px;
+        object-fit:contain;
+    }
+    .b-info{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background-color:gainsboro;
+        flex-grow:2;
+        padding:0;
+        
+    }
+    .b-info p{
+        padding:0;
+        margin:0;
+        font-size:1.2rem;
+        color:#333
+    }
+</style>
+<div class="image-container">
+    <div class="home">
+        <img src="~/Content/Images/shopping.jpg" />
+        <p>Shop with us</p>
+        <div class="overlay"></div>
+    </div>
+    <div class="custom-shape-divider-bottom-1606775958">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+        </svg>
+    </div>
+
+</div>
+<h2 class="text-center theme-text mt-5">Categories</h2>
+<div class="cat-container mt-5">
+
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/women1.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Womens Fashion</p>
+        </div>
+    </div>
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/men2.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Mens Fashion</p>
+        </div>
+    </div>
+        <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/kids1.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Kids Fashion</p>
+        </div>
+    </div>
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/home1.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Home</p>
+        </div>
+    </div>
+
+</div>
+<div class="cat-container mt-5">
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/tv3.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Television</p>
+        </div>
+    </div>
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/phone1.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Smart Phones</p>
+        </div>
+    </div>
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/workout1.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Workout</p>
+        </div>
+    </div>
+    <div class="cat-card">
+        <div class="cat-image">
+            <img src="~/Content/Images/gadgets1.jpg" />
+        </div>
+        <div class="cat-info">
+            <p>Gadgets</p>
+        </div>
+    </div>
+
+</div>
+<h2 class="text-center theme-text mt-5">Brands</h2>
+<div class="brand-container mt-4">
+    <div class="b-card">
+        <div class="b-logo">
+            <img src="~/Content/Images/cklogo.png" />
+        </div>
+        <div class="b-info">
+            <p>Calvin Klein</p>
+        </div>
+    </div>
+    <div class="b-card">
+        <div class="b-logo">
+            <img src="~/Content/Images/levislogo.png" />
+        </div>
+        <div class="b-info">
+            <p>Levi's</p>
+        </div>
+    </div>
+    <div class="b-card">
+        <div class="b-logo">
+            <img src="~/Content/Images/tommylogo.png" />
+        </div>
+        <div class="b-info">
+            <p>Tommy Hilfiger</p>
+        </div>
+    </div>
+    <div class="b-card">
+        <div class="b-logo">
+            <img src="~/Content/Images/guccilogo.png" />
+        </div>
+        <div class="b-info">
+            <p>Gucci</p>
+        </div>
+    </div>
+    <div class="b-card">
+        <div class="b-logo">
+            <img src="~/Content/Images/lacostelogo.png" />
+        </div>
+        <div class="b-info">
+            <p>Lacoste</p>
+        </div>
+    </div>
+    <div class="b-card">
+        <div class="b-logo">
+            <img src="~/Content/Images/diesellogo.png" />
+        </div>
+        <div class="b-info">
+            <p>Diesel</p>
+        </div>
+    </div>
+</div>

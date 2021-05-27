@@ -1,0 +1,107 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Final.Models.Item>
+
+@{
+    ViewBag.Title = ViewBag.category+'-'+ViewBag.subcategory;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .items-wrapper{
+        display:grid;
+        grid-template-columns:auto auto auto auto;
+        justify-content:space-between;
+        grid-row-gap:20px;
+        padding:0 25px 0 25px;
+    }
+    .search-div{
+        display:flex;
+        flex-direction:row;
+        justify-content:flex-end;
+        margin:50px;
+        padding:0;
+        margin-top:80px;
+        position:sticky;
+        top:45px;
+        background-color:white;
+    }
+    .sort-seacrh{
+      display:flex;
+      justify-content:space-around;
+      column-gap:15px;
+    }
+    #searchBox{
+        border-radius:40px;
+        border:none;
+        background-color:gainsboro;
+        height:40px;
+        width:200px;
+        outline:none;
+        padding:15px;
+    }
+    #searchBox :focus{
+        border: none;
+        outline:none;
+        box-shadow:none;
+    }
+    .pagination-container{
+        width:100%;
+    }
+    .custome-select select {
+        border: none;
+        height: 40px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: none;
+    }
+
+    .custome-select select option {
+        display: flex;
+    }
+    #search-button {
+        height: 40px;
+    }
+
+    .fa{
+        font-family:'Poppins',sans-serif;
+    }
+    .search-form{
+        width:100%;
+        display:flex;
+        justify-content:space-between;
+        align-items:center
+    }
+</style>
+
+<div class="search-div ">
+    @using(Html.BeginForm("Category","Items", new { category=ViewBag.category,subcategory=ViewBag.subcategory},FormMethod.Post,new { @class="search-form"} ))
+    {
+    <h3 class="theme-text">@ViewBag.category  @ViewBag.subcategory</h3>
+    <div class="sort-seacrh">
+       <div>
+           <input type="text" name="search" id="searchBox" placeholder="Search"/>
+       </div>
+        <div class="custome-select">
+            <select name="sort" class="fa">
+                <option disabled selected value="" hidden>Sort  &#8593;&#8595;</option>
+                <option>Price High to low</option>
+                <option>Price Low to high</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" id="search-button"/>
+        </div>
+    </div>
+    }
+</div>
+<div class="items-wrapper">
+    @foreach (var item in Model)
+    {
+        <idv class="part-card mb-5" id="item-card">
+            @Html.Partial("_Items", item)
+        </idv>
+
+    }
+</div>
+@Html.PagedListPager(Model, page => Url.Action("Category", new { page,category=Request.QueryString["category"],subcategory=Request.QueryString["subcategory"]}))

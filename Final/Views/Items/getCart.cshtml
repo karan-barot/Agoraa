@@ -1,0 +1,27 @@
+﻿@model Final.Models.Cart
+
+@{
+    ViewBag.Title = "getCart";
+}
+
+<div class="xyz"></div>
+
+<script>
+    $(document).ready(function () {
+            
+    })
+
+    function getcart() {
+        $.ajax({
+            async: true,
+            data: null,
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '/Items/getCart',
+            type: 'GET',
+            success: function (respone) {
+                alert("Hoho");
+            }
+        })
+    }
+</script>

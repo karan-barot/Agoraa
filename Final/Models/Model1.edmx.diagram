@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d578ee7f3f334cd3976a681c1502a85b" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="DbModel.Brand" Width="1.5" PointX="5.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.City" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.Country" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.State" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.Subcategory" Width="1.5" PointX="10.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.User" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="DbModel.FK_CityUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DbModel.FK_CountryUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DbModel.FK_StateUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DbModel.Cart" Width="1.5" PointX="10.25" PointY="3.75" />
+        <AssociationConnector Association="DbModel.foreginkey_carts_users" />
+        <EntityTypeShape EntityType="DbModel.Visit" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DbModel.AdminMessage" Width="1.5" PointX="5.25" PointY="11.625" />
+        <AssociationConnector Association="DbModel.admin_user_fk" />
+        <EntityTypeShape EntityType="DbModel.Item" Width="1.5" PointX="8" PointY="7.875" />
+        <AssociationConnector Association="DbModel.FK_BrandItem" />
+        <AssociationConnector Association="DbModel.foreginkey_carts_items" />
+        <EntityTypeShape EntityType="DbModel.Category" Width="1.5" PointX="5.75" PointY="15.125" />
+        <AssociationConnector Association="DbModel.itm_cat_fk" />
+        <EntityTypeShape EntityType="DbModel.Review" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="DbModel.rv_itm_fk" />
+        <AssociationConnector Association="DbModel.rv_usr_fk" />
+        <AssociationConnector Association="DbModel.itm_scat_fk" />
+        <EntityTypeShape EntityType="DbModel.Order" Width="1.5" PointX="5.25" PointY="4.375" />
+        <AssociationConnector Association="DbModel.FK_OrderUser" />
+        <EntityTypeShape EntityType="DbModel.Order_Details" Width="1.5" PointX="13.25" PointY="7.125" />
+        <AssociationConnector Association="DbModel.detail_itm_fk" />
+        <AssociationConnector Association="DbModel.detail_order_fk" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

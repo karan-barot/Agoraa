@@ -1,0 +1,196 @@
+﻿@model Final.Models.User
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<head>
+    <title></title>
+    <meta content="width=device-width" name="viewport" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <style>
+        * {
+            font-family: 'Poppins',sans-serif;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: white;
+            width: 400px;
+            border-radius: 20px;
+            height: 500px;
+            margin: auto;
+            margin-top: 40px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 0 20px gainsboro;
+        }
+
+        .shape {
+            background-color: red;
+            width: 100%;
+            height: 70px;
+        }
+
+        .input-field {
+            background-color: gainsboro;
+            max-width: 300px;
+            width: 100%;
+            height: 55px;
+            margin: 10px 0;
+            border-radius: 55px;
+            display: grid;
+            grid-template-columns: 10% 90%;
+            padding: 0 .4rem;
+        }
+
+        .input-field i {
+            text-align: center;
+            line-height: 55px;
+        }
+
+        .input {
+            border: none;
+            outline: none;
+            background: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .input::placeholder {
+             color: #aaa;
+        }
+
+        .button {
+            width: 150px;
+            height: 40px;
+            border-radius: 55px;
+            border: none;
+            background: #ff401b;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 0 25px #ff401b;
+            margin-top: 20px;
+            transition: .5s;
+            margin-bottom: 10px;
+        }
+
+        .button:hover {
+            background-color: #333;
+            box-shadow: 0 0 25px #333;
+        }
+
+        .social-text {
+            font-size: 1rem;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            justify-content: space-around;
+            width: 300px;
+        }
+
+        .social-icon {
+            height: 46px;
+            width: 46px;
+            border: 1.5px solid #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            transition: 0.5s;
+            align-items: center;
+            color: #333;
+        }
+
+        .social-icon:hover {
+            background-color: #333;
+            color: white;
+            border: 1.5px solid #333;
+        }
+    </style>
+</head>
+<body>
+ @using(Html.BeginForm("Login","User",FormMethod.Post))
+ { 
+    <form action="" class="sign-in-form shadow-lg mt-3">
+            <h2>Sign In</h2>
+            <div class="input-field">
+                <i class="fa fa-user"></i>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "input", placeholder = "Username", name = "username" })
+            </div>
+            <div class="input-field">
+                <i class="fa fa-lock"></i>
+                @Html.TextBoxFor(model => model.Password, new { @class = "input", placeholder = "Password", type = "password" })
+            </div>
+            <input type="submit" class="button" id="loginbutton">
+            <p class="social-text">Don't have an account yet? Signup here.</p>
+            <div class="social-media">
+                <a href="" class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="social-icon">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="social-icon">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+    </form>
+}
+   <!-- <script>
+        $("document").ready(function () {
+            
+            function f1() {
+                toastr.success("Loggedin Successfully");
+            }
+            function f2() {
+                toastr.info("Invalid Credentials");
+            }
+            function f3() {
+                toastr.error("User Dosen't exist");
+            }
+            $("#loginbutton").click(function () {
+                var username = $("#UserName").val();
+                var password = $("#Password").val();
+                var user = {};
+                user.UserName = username;
+                user.password = password;
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "/User/Login",
+                        dataType: "JSON",
+                        contentType: 'application/json;charset=utf-8',
+                        data: JSON.stringify(user),
+                        success: function (response) {
+                            if (response.success === true) {
+                                alert("hello");
+                                f1();
+                            }
+                            else {
+                                f2();
+                            }
+                        },
+                        failure: function (response) {
+                            f3();
+                        },
+                        error: function (response) {
+                            f3();
+                        }
+                    });
+                
+
+            });
+        })
+    </script>-->
+</body>

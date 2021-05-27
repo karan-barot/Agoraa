@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "PlaceOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .cc{
+        height:30vh;
+        margin:auto;
+        background-color:#f8f9fa;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
+    .abcd{
+        font-size:1.2rem
+    }
+</style>
+
+<h1 class="theme-text text-center">Success!!!</h1>
+<hr />
+<div class="cc m-4">
+    <h2 class="text-center text-success">Your Order was placed successfully</h2>
+    <p class="abcd ">
+        <a class="d-flex align-items-center"href="@Url.Action("Index","Items")">Continue Shopping  <i class="fas fa-arrow-circle-right ml-1"></i></a>
+    </p>
+</div>
+
